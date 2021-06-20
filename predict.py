@@ -1,11 +1,21 @@
 import cv2
+import sys
 import numpy as np
 from keras.models import load_model
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' # To ignore AVX2 FMA extensions
 
-model = load_model('trained_model.h5')
-
+fixed_model_location = False
+if fixed_model_location:
+    model = load_model('trained_model.h5')
+else:
+    try:
+        model_name = str(input('Model Name > '))
+    except Exception as e:
+        print('Please enter a valid input.')
+        sys.exit(1)
+    
+    model = load_model(model_name)
 # range for color detection
 lower = np.array([50,50,50])
 upper = np.array([130,255,255])
